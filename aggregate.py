@@ -36,7 +36,6 @@ set_policy(compare_other)
 
 files = [f for f in listdir('./dataset/') if isfile(join('./dataset/', f))]
 for file in files:
-    print(file)
     file_string = file.split('.')[0]
     year = int(file_string[0: 2]) + 2000
     df = pd.read_csv(relative_path + file, encoding='UTF-16', delimiter='\t')
@@ -45,13 +44,38 @@ for file in files:
         country_fresh[year-year_start][0] = year 
         country_row = df.loc[df['Unnamed: 0'] == 'CHN']
         if country_row.empty == 0 :
-            country_fresh[year-year_start][1] += row['Female'].values.astype(int)[0] \
-                    + row['Male'].values.astype(int)[0]
+            country_fresh[year-year_start][1] += country_row['Female'].values.astype(int)[0] \
+                    + country_row['Male'].values.astype(int)[0]
+        compare_row = df.loc[df['Unnamed: 0'] == 'IND']
+        if compare_row.empty == 0 :
+            compare_fresh[year-year_start][1] += compare_row['Female'].values.astype(int)[0] \
+                    + compare_row['Male'].values.astype(int)[0]
+    else:
+        country_other[year-year_start][0] = year 
+        country_row = df.loc[df['Unnamed: 0'] == 'CHN']
+        if country_row.empty == 0 :
+            country_other[year-year_start][1] += country_row['Female'].values.astype(int)[0] \
+                    + country_row['Male'].values.astype(int)[0]
+        compare_row = df.loc[df['Unnamed: 0'] == 'IND']
+        if compare_row.empty == 0 :
+            compare_other[year-year_start][1] += compare_row['Female'].values.astype(int)[0] \
+                    + compare_row['Male'].values.astype(int)[0]
         
-    
-    
-    
-    
+
+columns = ['year', 'total', 'tradewar?']
+def change_to_df(mat):
+    mat = pd.DataFrame(data = mat, columns = columns)
+    return mat
+
+country_fresh = change_to_df(country_fresh)
+compare_fresh = change_to_df(compare_fresh)
+country_other = change_to_df(country_fresh)
+compare_other = change_to_df(country_fresh)
+
+country_fresh.to_csv(country + 'freshman.csv')
+compare_fresh.to_csv(compare + 'freshman.csv')
+country_other.to_csv(country + 'othergrades.csv')
+compare_other.to_csv(compare + 'othergrades.csv')
     
     
     
