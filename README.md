@@ -10,14 +10,8 @@
 - table.htm is the regression table
 
 ## Code (same as those in Analyses.Rmd)
----
-title: "Data Analyses"
-author: "Bocheng Zhang"
-date: "2021/4/11"
-output: html_document
----
 
-## Load Datasets and Packages
+#### Load Datasets and Packages
 ```{r}
 library(readr)
 China <- read_csv("Freshman_China.csv")
@@ -27,7 +21,7 @@ library(tidyverse)
 library(stargazer)
 ```
 
-## Data cleaning and manipulation
+#### Data cleaning and manipulation
 ```{r}
 China<-filter(China,between(Year,2001,2020))
 India<-filter(India,between(Year,2001,2020))
@@ -39,14 +33,14 @@ Analyses<-mutate(Analyses,Y2=ifelse(Year>=2019,1,0))
 Analyses<-mutate(Analyses,War2=ifelse(Country=="China" & Year>=2019,1,0))
 ```
 
-## Graphs
+#### Graphs
 ```{r}
 ggplot(data=China,mapping = aes(x=Year,y=Fall))+geom_line()+geom_point()
 ggplot(data=Analyses,mapping = aes(x=Year,y=Enrollment,color=Country))+geom_line()+geom_point()
 ggplot(data=Analyses,mapping = aes(x=Year,y=Enrollment,color=Country))+geom_smooth()+geom_point()
 ```
 
-## Difference-in-Difference Model
+#### Difference-in-Difference Model
 ```{r}
 ## Model with treatment from 2018
 Model1<-lm(Enrollment~C+Y+War,Analyses)
@@ -54,7 +48,7 @@ Model1<-lm(Enrollment~C+Y+War,Analyses)
 Model2<-lm(Enrollment~C2+Y2+War2,Analyses)
 ```
 
-## Regression Tables
+#### Regression Tables
 ```{r}
 stargazer(Model1,Model2,title = "Difference-in-Difference Estimates",type="text",digits=3,out="table.htm",dep.var.labels = c("Freshmen Enrollment (Treatment from 2018)","Freshmen Enrollment (Treatment from 2019)"),covariate.labels = c("Country","Year","US-China Trade War"))
 ```
