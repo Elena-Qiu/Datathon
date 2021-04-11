@@ -69,8 +69,8 @@ def change_to_df(mat):
 
 country_fresh = change_to_df(country_fresh)
 compare_fresh = change_to_df(compare_fresh)
-country_other = change_to_df(country_fresh)
-compare_other = change_to_df(country_fresh)
+country_other = change_to_df(country_other)
+compare_other = change_to_df(compare_other)
 
 country_fresh.to_csv(country + 'freshman.csv')
 compare_fresh.to_csv(compare + 'freshman.csv')
