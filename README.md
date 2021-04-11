@@ -9,7 +9,7 @@
 - Enrollment.png and Trend.png are graphs
 - table.htm is the regression table
 
-## Code
+## Code (same as those in Analyses.Rmd)
 ---
 title: "Data Analyses"
 author: "Bocheng Zhang"
